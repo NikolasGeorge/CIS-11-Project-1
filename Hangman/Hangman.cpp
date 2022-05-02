@@ -8,6 +8,7 @@
 #include <fstream>
 #include <string>
 #include <time.h>
+#include <algorithm>
 #include "Scoreboard.h"
 
 using namespace std;
@@ -173,6 +174,9 @@ string loadRandomWord(string path)// Logic for choosing a random word
 		word = v.at(randomLine);
 
 		reader.close();
+		std::transform(word.begin(), word.end(), word.begin(),
+			[](unsigned char c) { return std::toupper(c); }
+		);
 		return word;
 	}
 }
