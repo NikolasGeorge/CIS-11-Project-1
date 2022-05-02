@@ -21,18 +21,24 @@
     <ClCompile Include="Scoreboard.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="Printing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scoreboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawHangman.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LoadRandomWord.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CalcFailedTries.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Printing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

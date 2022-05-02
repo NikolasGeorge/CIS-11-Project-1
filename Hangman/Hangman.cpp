@@ -10,153 +10,12 @@
 #include <time.h>
 #include <algorithm>
 #include "Scoreboard.h"
+#include "Printing.h"
 
 using namespace std;
 
 enum GameState { Running, Won, Lost };
 
-void printMessage(string message, bool printTop = true, bool printBottom = true) // Logic for building the gameboard
-{
-	if (printTop)
-	{
-		cout << "+---------------------------------+" << endl;
-		cout << "|";
-	}
-	else
-	{
-		cout << "|";
-	}
-	bool front = true;
-	for (int i = message.length(); i < 33; i++)
-	{
-		if (front)
-		{
-			message = " " + message;
-		}
-		else
-		{
-			message = message + " ";
-		}
-		front = !front;
-	}
-	cout << message.c_str();
-
-	if (printBottom)
-	{
-		cout << "|" << endl;
-		cout << "+---------------------------------+" << endl;
-	}
-	else
-	{
-		cout << "|" << endl;
-	}
-}
-void drawHangman(int guessCount = 0) // Logic for drawing the Hangman body
-{
-	if (guessCount >= 1)
-	{
-		printMessage("|", false, false);
-	}
-	else
-	{
-		printMessage("", false, false);
-	}
-	if (guessCount >= 2)
-	{
-		printMessage("|", false, false);
-	}
-	else
-	{
-		printMessage("", false, false);
-	}
-	if (guessCount >= 3)
-	{
-		printMessage("O", false, false);
-	}
-	else
-	{
-		printMessage("", false, false);
-	}
-	if (guessCount == 4)
-	{
-		printMessage("/  ", false, false);
-	}
-	if (guessCount == 5)
-	{
-		printMessage("/| ", false, false);
-	}
-	if (guessCount >= 6)
-	{
-		printMessage("/|\\", false, false);
-	}
-	else
-	{
-		printMessage("", false, false);
-	}
-	if (guessCount >= 7)
-	{
-		printMessage("|", false, false);
-	}
-	else
-	{
-		printMessage("", false, false);
-	}
-	if (guessCount == 8)
-	{
-		printMessage("/  ", false, false);
-	}
-	if (guessCount == 9)
-	{
-		printMessage("/ \\", false, false);
-	}
-	else
-	{
-		printMessage("", false, false);
-	}
-
-}
-void printLetters(string guessed, char from, char to) // Logic for player input
-{
-	string s;
-	for (char i = from; i <= to; i++)
-	{
-		if (guessed.find(i) == string::npos)
-		{
-			s += i;
-		}
-		else
-		{
-			s += " ";
-		}
-	}
-	printMessage(s, false, false);
-}
-void printAvailableLetters(string guessed) // Logic for printing the alphabet
-{
-	printMessage("Available Letters");
-	printLetters(guessed, 'A', 'M');
-	printLetters(guessed, 'N', 'Z');
-}
-bool printWordAndCheckWin(string word, string guessed) // Logic for checking the players input compared to random word chosen
-{
-	bool won = true;
-	string s;
-	for (int i = 0; i < word.length(); i++)
-	{
-		if (guessed.find(word[i]) == string::npos)
-		{
-			won = false;
-			s += "_ ";
-		}
-		else
-		{
-			s += word[i];
-			s += " ";
-		}
-	}
-	printMessage(s, false);
-	return won;
-}
 string loadRandomWord(string path)// Logic for choosing a random word
 {
 	int lineCount = 0;
@@ -191,7 +50,8 @@ int calcFailedTries(string word, string guessed) // Logic for the player answeri
 	return failedTries;
 }
 
-void playGame()
+
+void playGame() // should return score
 {
 	srand(time(0)); // Logic for tracking game time
 	string playerGuesses;
@@ -201,13 +61,7 @@ void playGame()
 	GameState state = GameState::Running;
 	do
 	{
-		system("cls");
-		printMessage("HANG MAN");
-		drawHangman(failedTries);
-		printAvailableLetters(playerGuesses);
-		printMessage("Guess the word");
-
-		bool won = printWordAndCheckWin(wordToGuess, playerGuesses); // TODO split this
+		bool won = printGame(failedTries, wordToGuess, playerGuesses);
 		if (won)
 		{
 			state = GameState::Won;
@@ -229,19 +83,23 @@ void playGame()
 
 	} while (state == GameState::Running);
 
-	cout << wordToGuess << endl << endl;
-	drawHangman(9);
-	printAvailableLetters(playerGuesses);
 	if (state == GameState::Won) // Logic for the player has won and reset
 	{
+		system("cls");
+		printMessage("HANG MAN");
+		drawHangman(failedTries);
 		printMessage("YOU WON!");
+		printMessage("The word was " + wordToGuess);
 	}
 
 	else // Logic for player losing
 	{
 		system("cls");
+		printMessage("HANG MAN");
+		drawHangman(failedTries);
 		printMessage("GAME OVER");
-		cout << "The word was " << wordToGuess << '\x07' << endl << endl;
+		printMessage("The word was " + wordToGuess);
+		cout << '\x07' << endl;
 	}
 
 	system("pause");
