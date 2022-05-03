@@ -7,22 +7,32 @@
 #pragma once
 
 #include <iostream>
-#include <vector>
 #include <fstream>
 #include <string>
 #include <time.h>
 #include <algorithm>
+#include <list>
+
+struct Score
+{
+	std::string name;
+	int score;
+};
 
 class Scoreboard
 {
-	// TODO some private container for score
+	std::list<Score> scores;
 
 public:
+	// ...
+	Scoreboard();
 
-	 //Scoreboard();
-	 //~Scoreboard();
+	// ...
+	~Scoreboard();
 
-	void recordNewScore(int score); // return if not good score; Print prompt, take initials, add to scoreboard
+	// return if not good score; Print prompt, take initials, add to scoreboard
+	void recordNewScore(int score); 
 
+	// ...
 	void printScores();
 };

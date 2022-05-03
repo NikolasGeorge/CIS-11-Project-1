@@ -142,11 +142,13 @@
     <ClCompile Include="Hangman.cpp" />
     <ClCompile Include="Printing.cpp" />
     <ClCompile Include="Scoreboard.cpp" />
+    <ClCompile Include="WordList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameInfo.h" />
     <ClInclude Include="Printing.h" />
     <ClInclude Include="Scoreboard.h" />
+    <ClInclude Include="WordList.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

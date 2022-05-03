@@ -4,7 +4,6 @@
  */
 //User Libraries
 #include <iostream>
-#include <vector>
 #include <list>
 #include <set>
 #include <fstream>
@@ -13,6 +12,7 @@
 #include <algorithm>
 #include "Scoreboard.h"
 #include "Printing.h"
+#include "WordList.h"
 
 using namespace std;
 
@@ -23,12 +23,6 @@ enum GameState
 	Lost 
 };
 
-enum class WordDifficulty 
-{ 
-	Normal, 
-	Hard 
-};
-
 enum class GameDifficulty 
 { 
 	Easy, 
@@ -36,50 +30,6 @@ enum class GameDifficulty
 	Hard 
 };
 
-class WordList
-{
-	list<string> allWords;
-
-public:
-	void loadWords(WordDifficulty wordDifficulty)
-	{
-		string filename;
-		if (wordDifficulty == WordDifficulty::Hard)
-		{
-			filename = "hardWords.txt";
-		}
-		else {
-			filename = "normalWords.txt";
-		}
-
-		ifstream reader(filename);
-		if (reader.is_open())
-		{
-			string word;
-			while (std::getline(reader, word))
-			{
-				allWords.push_back(word);
-			}
-			reader.close();
-		}
-	}
-
-	string nextWord()
-	{
-		int randomLine = rand() % allWords.size();
-		auto itr = allWords.begin();
-		for (int i = 0; i < randomLine; i++)
-		{
-			itr++;
-		}
-
-		string word = *itr;
-		std::transform(word.begin(), word.end(), word.begin(),
-			[](unsigned char c) { return std::toupper(c); }
-		);
-		return word;
-	}
-};
 
 int calcFailedTries(string word, std::set<char> guessed) // Logic for the player answering incorrectly
 {
@@ -95,7 +45,7 @@ int calcFailedTries(string word, std::set<char> guessed) // Logic for the player
 
 bool playRound(string wordToGuess, int score) // should return if player won
 {
-	srand(time(0)); // Logic for tracking game time
+
 	set<char> playerGuesses;
 	int failedTries = 0;
 	GameState state = GameState::Running;
@@ -126,7 +76,7 @@ bool playRound(string wordToGuess, int score) // should return if player won
 	if (state == GameState::Won) // Logic for the player has won and reset
 	{
 		system("cls");
-		printMessage("HANG MAN");
+		printMessage("Current Score: " + to_string(score + 1));
 		drawHangman(failedTries);
 		printMessage("YOU WON!");
 		printMessage("The word was " + wordToGuess);
@@ -134,12 +84,14 @@ bool playRound(string wordToGuess, int score) // should return if player won
 
 	else // Logic for player losing
 	{
+
 		system("cls");
-		printMessage("HANG MAN");
+		cout << '\x07';
+		printMessage("Current Score: " + to_string(score));
 		drawHangman(failedTries);
 		printMessage("GAME OVER");
 		printMessage("The word was " + wordToGuess);
-		cout << '\x07' << endl;
+
 	}
 
 	system("pause");
@@ -148,8 +100,32 @@ bool playRound(string wordToGuess, int score) // should return if player won
 
 int playGame()
 {
-	// TODO get difficulty from user
-	WordDifficulty wordDifficulty = WordDifficulty::Hard;
+	WordDifficulty wordDifficulty;
+	bool difficultyPicked = false;
+	do
+	{
+		system("cls");
+		printMessage("Pick word difficulty");
+		printMessage("Choose (N) Normal or (H) Hard");
+
+
+		char G;
+		cout << ">"; cin >> G;
+		G = std::toupper(G);
+
+		if (G == 'N')
+		{
+			wordDifficulty = WordDifficulty::Normal;
+			difficultyPicked = true;
+		}
+		else if (G == 'H')
+		{
+			wordDifficulty = WordDifficulty::Hard;
+			difficultyPicked = true;
+		}
+
+	}
+	while (!difficultyPicked);
 
 	WordList wordList;
 	wordList.loadWords(wordDifficulty);
@@ -164,12 +140,14 @@ int playGame()
 
 int main()
 {
+	srand(time(0)); // Logic for tracking game time
 	Scoreboard scoreboard;
 
 	while (true)
 	{
 		
 		char choice;
+
 		system("cls");
 		printMessage("Main Menu");
 		printMessage("P to play Hangman");

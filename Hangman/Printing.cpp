@@ -4,7 +4,6 @@
  */
  //User Libraries
 #include <iostream>
-#include <vector>
 #include <fstream>
 #include <string>
 #include <set>
