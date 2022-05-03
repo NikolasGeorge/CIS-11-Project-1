@@ -144,9 +144,7 @@
     <ClCompile Include="Scoreboard.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CalcFailedTries.h" />
     <ClInclude Include="GameInfo.h" />
-    <ClInclude Include="LoadRandomWord.h" />
     <ClInclude Include="Printing.h" />
     <ClInclude Include="Scoreboard.h" />
   </ItemGroup>

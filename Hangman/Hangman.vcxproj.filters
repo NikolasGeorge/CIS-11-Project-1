@@ -29,12 +29,6 @@
     <ClInclude Include="Scoreboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LoadRandomWord.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CalcFailedTries.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>

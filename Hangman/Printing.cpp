@@ -7,16 +7,17 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <set>
 #include <time.h>
 #include <algorithm>
 #include "Printing.h"
 
 using namespace std;
 
-bool printGame(int failedTries, string wordToGuess, string playerGuesses)
+bool printGame(int failedTries, string wordToGuess, set<char> playerGuesses, int score)
 {
 	system("cls");
-	printMessage("HANG MAN");
+	printMessage("Current Score: " + to_string(score));
 	drawHangman(failedTries);
 	printAvailableLetters(playerGuesses);
 	printMessage("Guess the word");
@@ -65,10 +66,12 @@ void drawHangman(int guessCount) // Logic for drawing the Hangman body
 	{
 		printMessage("|", false, false);
 	}
+
 	else
 	{
 		printMessage("", false, false);
 	}
+
 	if (guessCount >= 2)
 	{
 		printMessage("|", false, false);
@@ -77,6 +80,7 @@ void drawHangman(int guessCount) // Logic for drawing the Hangman body
 	{
 		printMessage("", false, false);
 	}
+
 	if (guessCount >= 3)
 	{
 		printMessage("O", false, false);
@@ -85,38 +89,47 @@ void drawHangman(int guessCount) // Logic for drawing the Hangman body
 	{
 		printMessage("", false, false);
 	}
+
 	if (guessCount == 4)
 	{
 		printMessage("/  ", false, false);
 	}
+
 	if (guessCount == 5)
 	{
 		printMessage("/| ", false, false);
 	}
+
 	if (guessCount >= 6)
 	{
 		printMessage("/|\\", false, false);
 	}
+
 	else
 	{
 		printMessage("", false, false);
 	}
+
 	if (guessCount >= 7)
 	{
 		printMessage("|", false, false);
 	}
+
 	else
 	{
 		printMessage("", false, false);
 	}
+
 	if (guessCount == 8)
 	{
 		printMessage("/  ", false, false);
 	}
+
 	if (guessCount == 9)
 	{
 		printMessage("/ \\", false, false);
 	}
+
 	else
 	{
 		printMessage("", false, false);
@@ -124,12 +137,12 @@ void drawHangman(int guessCount) // Logic for drawing the Hangman body
 
 }
 
-void printLetters(string guessed, char from, char to) // Logic for player input
+void printLetters(set<char> guessed, char from, char to) // Logic for player input
 {
 	string s;
 	for (char i = from; i <= to; i++)
 	{
-		if (guessed.find(i) == string::npos)
+		if (guessed.find(i) == guessed.end())
 		{
 			s += i;
 		}
@@ -141,20 +154,20 @@ void printLetters(string guessed, char from, char to) // Logic for player input
 	printMessage(s, false, false);
 }
 
-void printAvailableLetters(string guessed) // Logic for printing the alphabet
+void printAvailableLetters(set<char> guessed) // Logic for printing the alphabet
 {
 	printMessage("Available Letters");
 	printLetters(guessed, 'A', 'M');
 	printLetters(guessed, 'N', 'Z');
 }
 
-bool printWordAndCheckWin(string word, string guessed) // Logic for checking the players input compared to random word chosen
+bool printWordAndCheckWin(string word, set<char> guessed) // Logic for checking the players input compared to random word chosen
 {
 	bool won = true;
 	string s;
 	for (int i = 0; i < word.length(); i++)
 	{
-		if (guessed.find(word[i]) == string::npos)
+		if (guessed.find(word[i]) == guessed.end())
 		{
 			won = false;
 			s += "_ ";

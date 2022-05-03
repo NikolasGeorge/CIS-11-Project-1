@@ -1,4 +1,17 @@
+/*
+ * Author: Nikolas George
+ * Purpose: Project 1
+ */
+ //User Libraries
+
 #pragma once
+
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <string>
+#include <time.h>
+#include <algorithm>
 
 class Scoreboard
 {
@@ -6,10 +19,10 @@ class Scoreboard
 
 public:
 
-	// Scoreboard();
-	// ~Scoreboard();
+	 //Scoreboard();
+	 //~Scoreboard();
 
-	bool maybeRecordNewScore(int score); // return if not good score; Print prompt, take initials, add to scoreboard
+	void recordNewScore(int score); // return if not good score; Print prompt, take initials, add to scoreboard
 
-	void printScoreboard();
+	void printScores();
 };
