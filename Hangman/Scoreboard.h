@@ -2,13 +2,15 @@
  * Author: Nikolas George
  * Purpose: Project 1
  */
- //User Libraries
 
 #pragma once
+
+//User Libraries
 
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <queue>
 #include <time.h>
 #include <algorithm>
 #include <list>
@@ -19,15 +21,17 @@ struct Score
 	int score;
 };
 
+
 class Scoreboard
 {
 	std::list<Score> scores;
+	std::queue<std::string> gameOverMessages;
 
 public:
-	// ...
+	// Scoreboard constructor
 	Scoreboard();
 
-	// ...
+	// Scoreboard deconstructor
 	~Scoreboard();
 
 	// return if not good score; Print prompt, take initials, add to scoreboard
